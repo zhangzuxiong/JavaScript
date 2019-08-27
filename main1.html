@@ -1,0 +1,143 @@
+<html>
+<head>
+
+<body>
+
+</body>
+
+
+<script>
+	
+	var obj={
+		"name":"zhang",
+		"age":20
+	}
+	
+	console.log(obj.name,obj.age,obj["name"]);//通过键去访问值时,键必须加引号
+	
+	
+	//如果要定义一个二维数组只能通过for循环去为每个一维数组的数组赋一个一维数组
+	var arr=["zhang","zu","xiong"];
+	console.log(arr[1]);
+	console.log(Object.keys(obj),Object.values(obj));//获取对象的所有键,获取对象所有的值
+	
+	// delete obj.name;//删除对象对应的键,无论键存不存在都会返回true,都会正常执行
+	// console.log(obj);
+	
+	
+	console.log(obj.hasOwnProperty("name"));//判断对象是否存在某个属性	true
+	console.log(obj.hasOwnProperty("emial"));//false
+	
+	
+	//为一个对象批量赋值,如果不存在不会为对象新增属性
+	with (obj){
+		name="张祖雄",
+		age=23,
+		email="762637517@qq.com"
+	}
+	
+	console.log(obj,email);
+	
+	
+	console.log(eval("2+3"));
+	
+	
+	
+	//遍历对象
+	for(var key in obj){//无法识别对象属性是属于自己的还是属于父类的属性,会打印所有的属性包括,自己的和继承父类中的属性
+		console.log(key,obj[key]);
+	}
+
+	
+	var arr1=[];
+	for(var i=0;i<10;i++){
+		arr1[i]=parseInt(Math.random()*11);
+	}
+	
+	//sort()//如果么有参数那么排序是将数组内容转换为字符按照字符排序,如果需要按照数字进行排序,那么需要自己提供一个排序的函数,自己定义排序规则
+	
+	arr1.sort(function (a,b){
+		return a-b;
+	});
+	
+	//这样只能排序第一位数,如果出现了两位以上的数必须提供比较函数,才能比较数值的大小
+	arr1.sort();
+	
+	console.log(arr1);
+
+
+	//从第一个位置删除2个,并将20加入到第一个位置
+	// arr1.splice(1,2,20);
+
+	var obj={};
+	
+	
+	//数组去重    可以去重一维和多维数组    哈希去重
+	for(var i=0;i<arr1.length;i++){
+		if(obj.hasOwnProperty(arr1[i])){
+			arr1.splice(i,1);
+			i--;
+		}
+		else{
+			obj[arr1[i]]=1;
+		}
+	}
+	
+	console.log(arr1);
+	
+	
+	var str="zhang zu xiong";
+	console.log(str);
+	
+	// replace()//第一个参数传入一个字符串或者是一个正则表达式,替换之后返回一个新的字符串,并不会改变原字符串
+	str=str.replace("zhang","wo");
+	
+	// console.log(str.replace("zhang","wo"));
+	console.log(str);
+	
+	
+	//函数定义的几种方式,同名函数,重定义会覆盖先定义的函数,
+	//1.
+	function fun(a){
+		
+	}
+	
+	//2.
+	var f=function (a){
+		
+	}
+	
+	//3.
+	var fun=new Function("a","b","return a+b");
+	console.log(fun(2,3));
+
+
+	//内置对象 arguments  表示实参列表
+	function fun_argments(){
+		console.log(arguments);
+		console.log(arguments[0],arguments[1]);
+	}
+	
+	fun_argments(100,200);
+	
+	
+	
+	//...args   可以接受多个参数,表示一个数组
+	function fun2(...args){
+		console.log(args,...args);
+	}
+	
+	fun2(100,200,300);
+	/*
+		js中不存在函数重载
+		后申明的函数会覆盖先申明的函数
+		argument和...可以实现重载的功能
+	*/
+	
+	
+
+
+</script>
+
+</head>
+</html>
