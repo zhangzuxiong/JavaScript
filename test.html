@@ -1,0 +1,197 @@
+<html>
+<head>
+	
+<script>
+	
+	function add(){
+		let sum=0;
+		if(arguments.length==0){
+			return sum;
+		}
+		for(let i=0;i<arguments.length;i++){
+			sum+=arguments[i];
+		}
+		return function (){
+			if(arguments.length==0){
+				return sum;
+			}
+			let sum1=0
+			for(let i=0;i<arguments.length;i++){
+				sum1+=arguments[i];
+			}
+			return sum+sum1;
+		}
+	}
+	
+	console.log(add(1)(2));
+	console.log(add(1,2)(3,4));
+	console.log(add(1)());
+	
+	
+	function operator(a,b,op){
+		if(a!=undefined&&b!=undefined&&op!=undefined){
+			if(op=='+'){
+				return a+b;
+			}
+			else if(op=='-'){
+				return a-b;
+			}
+			else if(op=='*'){
+				return a*b;
+			}
+			else if(op=='/'){
+				return a/b;
+			}
+			else if(op=='%'){
+				return a%b;
+			}
+			else {
+				return false;
+			}
+		}
+		
+		return false;
+	}
+	
+	console.log("3+2="+operator(3,2,'+'));
+	console.log("3-2="+operator(3,2,'-'));
+	console.log("3*2="+operator(3,2,'*'));
+	console.log("3/2="+operator(3,2,'/'),"向下取整为:"+parseInt(operator(3,2,'/')));
+	console.log("3%2="+operator(3,2,'%'));
+	console.log(operator(3,2));
+	
+	
+	//计算两个数的最大公约数和最小公倍数
+	function fun2(a,b){
+		if(a!=undefined&&b!=undefined){
+			let num1=a<b?a:b;//最大公约数
+			let num2=a>b?a:b;//最小公倍数
+			
+			//计算最大公约数
+			while(true){
+				let na=a/num1;
+				let nb=b/num1;
+				if((~~na==na)&&(~~nb==nb)){
+					break;
+				}
+				num1--;
+			}
+			
+			
+			//计算最小公倍数
+			while(true){
+				let na=num2/a;
+				let nb=num2/b;
+				if((~~na==na)&&(~~nb==nb)){
+					break;
+				}
+				num2++;
+			}
+			
+			console.log(a+","+b+"最大公约数"+num1+";",a+","+b+"最小公倍数"+num2);
+			return [num1,num2];
+			
+		}
+		return flase;
+	}
+	
+	
+	fun2(5,8);
+	
+	
+	//统计一个字符串中出现最多的字符和次数
+	function count(str){
+		let mark={};
+		
+		for(let i=0;i<str.length;i++){
+			if(mark.hasOwnProperty(str[i])){
+				mark[str[i]]++;
+			}
+			else{
+				mark[str[i]]=1;
+			}
+		}
+		
+		let c=[];
+		let num=0;
+		
+		//寻找,出现最多字符的个数
+		for(let i in mark){
+			if(mark[i]>num){
+				num=mark[i];
+			}
+		}
+		
+		for(let i in mark){
+			if(mark[i]==num){
+				c.push(i);
+			}
+		}
+		
+		
+		return {"c":c,"num":num};
+		
+	}
+	
+	let str="zhangzuxiong";
+	let obj_num=count(str);
+	
+	console.log(str+"中出现最多的字符是:"+obj_num.c,"出现了"+obj_num.num+"次");
+	
+	
+	
+	//输入一个日期判断是今年的第几天
+	let date="2019-12-31";//4:91   5:119
+	
+	function fun3(date){
+		let arr=date.split("-");
+		let year=parseInt(arr[0]);
+		let month=parseInt(arr[1]);
+		let day=parseInt(arr[2]);
+		
+		console.log(year,month,day);
+		
+		let sum=0;
+		
+		for(let i=1;i<month;i++){
+			
+			if(i==1||i==3||i==5||i==7||i==8||i==10){
+				sum+=31;
+			}
+			
+			else if(i==4||i==6||i==9||i==11){
+				sum+=30;
+			}
+			
+			else {
+				//闰年
+				if((year%4==0&&year%100!=0)||(year%400==0)){
+					sum+=29;
+				}
+				else{
+					sum+=28;
+				}
+			}
+		}
+		sum+=day;
+		
+		return sum;
+		
+	}
+	
+	console.log("日期"+date+"是今年的第"+fun3(date)+"天");
+	
+	let test=["abc","bcd","cde","def"];
+	console.log(test);
+	let s1=test.join("-");
+	console.log(s1);
+	console.log(s1.split("-"));
+	console.log(s1.valueOf());
+	
+	
+		
+	console.log(typeof(2/3));
+</script>
+	
+</head>
+</html>
