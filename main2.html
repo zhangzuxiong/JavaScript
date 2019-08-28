@@ -1,0 +1,163 @@
+<html>
+<head>
+
+<body>
+
+</body>
+
+
+<script>
+	
+	//闭包
+	//1.可以使变量始终保存在内存中
+	//2.可以读取函数内部的变量
+	function fun1(){
+		let n=100;
+		function fun2(){
+			n++;
+			console.log(n);
+		}
+		return fun2;
+	}
+	
+	let getN = fun1();
+	getN();
+	getN();
+	
+	let num=1;
+	
+	
+	//使用闭包封装私有属性以及方法
+	function Person(name){
+		let _age;
+		function setAge(n){
+			_age=n;
+		}
+		function getAge(){
+			console.log(_age);
+		}
+		
+		return {
+			name:name,
+			getAge:getAge,
+			setAge:setAge
+		}
+	}
+	
+	let per = Person("张祖雄");
+	console.log(per.name);
+	per.setAge(23);
+	per.getAge();
+	console.log(per);
+	
+	
+	//立即执行
+	(function(){console.log("张祖雄")}());
+	(function(){console.log("张祖雄")})();
+	
+	
+	//数组
+	let arr1=[1,2,3,4,5,6,7,8,9,10];
+	
+	//循环遍历
+	// for(let index in arr1){
+	// 	console.log(arr1[index]);
+	// }
+	
+	//forEach()循环遍历
+	// arr1.forEach(function(num){
+	// 	console.log(num);
+	// })
+	
+	//
+	console.log(arr1.shift());//删除数组的第一个元素
+	console.log(arr1.pop());//删除数组的最后一个元素
+	arr1.push(20);//往数组的末尾添加一个元素,返回数组新的长度
+	arr1.unshift(0);//往数组开头添加一个元素
+	arr1.splice(1,2);//从第一个位置开始删除两个元素
+	console.log(arr1);
+	
+	let fun_d=function(){
+		console.log("i am "+this.name);
+	}
+	
+	//对象
+	//1.铸模
+	function Dog(name,age){
+		this.name=name;
+		this.age=age;
+		this.talk=fun_d;
+		this.eat=function(a,b){
+			console.log("i am "+this.name);
+			console.log(a,b);
+		}
+	}
+	
+	function Dog2(name,age){
+		this.name=name;
+		this.age=age;
+		this.talk=fun_d;
+	}
+	
+	// call	apply	bind的区别:
+	// bind绑定不执行,call	apply绑定立即执行一次
+	
+	
+	let dog1=new Dog("xiaohei",23);
+	let dog2=new Dog2("xiaohuang",12);
+	
+	console.log(dog1.name,dog1.age);
+	dog1.talk();
+
+	dog1.eat.call(dog2,1,2);
+	dog1.eat.apply(dog2,[1,2]);
+	dog1.eat.bind(dog2,1,2)();
+	
+	// setTimeout	延迟指定时间后执行一次
+	//js执行是异步的
+	let f1=function(){
+		console.log("-----------");
+	}
+	
+	let f2=function(){
+		console.log("===========");
+	}
+	
+	setTimeout(function(){
+		console.log("~~~~~~~~~~~");
+	},2000);
+	
+	setTimeout(f1,1000);
+	
+	let count=1;
+	
+	let temp=setInterval(function(){
+		console.log(count++);
+		if(count==10){
+			clearInterval(temp);
+		}
+	},2000);
+	
+	f1();
+	f2();
+	
+	
+	//输入
+	//let a=prompt();
+	let a=5;
+	console.log(a);
+		//二维数组
+	let arr=[];
+	for(let i=0;i<a;i++){
+		arr[i]=[];
+		for(let j=0;j<a;j++){
+			arr[i][j]=i+j;
+		}
+	}
+	console.log(arr);
+	
+
+</script>
+
+</head>
+</html>
