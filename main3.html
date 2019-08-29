@@ -1,0 +1,170 @@
+<html>
+<head>
+<script>
+	/*
+		原型、继承
+	*/
+	//数据类型转换
+	//1.所有类型都有toString()
+	function fun1(){
+		let a=123;
+		console.log(a.toString());
+		console.log(a,a+"");
+		console.log(a,String(a));
+		
+		let b=true;
+		console.log(b.toString());
+		console.log(b,b+"");
+		console.log(b,String(b));
+		
+		
+		let arr=[1,2,3];
+		let brr=[1,2,3];
+		console.log(arr===brr);
+		//判断两个数组是否相等可以通过转换成字符串比较是否相等
+		console.log(arr.toString()===brr.toString());
+		
+		let obj={
+			a:100,
+			b:200,
+			c:300
+		}
+		
+		//对象转字符换都是[object Object]
+		console.log(obj.toString());
+		
+		function f(){
+			console.log("函数");
+		}
+		
+		console.log(f.toString());
+	}
+	
+	// fun1();
+	
+	
+	//原型对象:prototype,它是构造函数的一个内置对象,凡是放在prototype中的属性都可以被构造函数的实例所共享
+	//没有放在
+	//
+	function Dog(){
+		this.name="xiaohei";
+		this.age=8;
+	}
+	
+	Dog.prototype.talk = function(){
+		console.log("哦呜哦呜");
+	}
+	
+	
+	let dog1 = new Dog();
+	let dog2 = new Dog();
+	console.log(dog1);
+	console.log(dog2);
+	dog1.talk();
+	
+	dog1.__proto__.talk();
+	console.log(Dog.prototype);
+	
+	// hasOwnProperty() 和 in 的区别:hasOwnProperty()只能判断属性书否属于当前对象,不会去判断当前对象的原型对象,
+	// in会去判断属性是否属于当前对象和当前对象的原型对象,是要属于当前对象或者属于当前对象的原型对象的属性则返回true
+	
+	console.log(dog1.hasOwnProperty("name"));
+	console.log("name" in dog1);
+	
+	console.log(dog1.hasOwnProperty("talk"));
+	console.log("talk" in dog1);
+	
+	// constructor  实际上就是调用Dog的构造函数  和new Dog()没有区别
+	console.log(new dog1.__proto__.constructor());
+	
+	
+	//构造函数的继承
+	function Person(){
+		this.name="zhangzuxiong";
+		this.age=23;
+		this.run=function(){
+			console.log("running");
+		}
+	}
+	
+	Person.prototype.talk=function(){
+		console.log("i am zhangzuixog");
+	}
+	
+	console.log(new Person());
+	
+	function Teacher(){
+		Person.call(this);//继承静态属性和方法
+		// Person.apply(this)
+		this.teach = function(){
+			console.log("teaching");
+		}
+	}
+	
+	Teacher.prototype=Object.create(Person.prototype);//继承原型链
+	
+	Teacher.prototype.constructor = Teacher;//修改构造器
+	
+	console.log(new Teacher());
+	
+	
+	//class
+	//类内定义的方法全部在原型上(prototype),class可以通过extends关键字继承
+	class Point{
+		
+		constructor(x,y) {
+		    this.x = x;
+			this.y = y;
+			this.move = function(){
+				console.log("moving");
+			}
+		}
+		toString(){
+			return "["+this.x+","+this.y+"]"
+		}
+	}
+	
+	let p1 = new Point(100,200);
+	console.log(p1);
+	console.log(Point.prototype);
+	console.log(p1.toString());
+	
+	
+	class ColorPoint extends Point{
+		constructor(x,y,c){
+			super(x,y);
+			this.color = c;
+			this.move = function(){
+				console.log("colorPoint move");
+			}
+		}
+		
+		toString(){
+			return "ColorPoint";
+		}
+	}
+	
+	let cp1 = new ColorPoint(200,300,"yellow");
+	console.log(cp1);
+	console.log(cp1.move());
+	
+	
+	// Object.assign()//可以一次性的向类中添加多个方法
+	Object.assign(Point.prototype,{
+		toString(){},
+		valueOf(){
+			return this.x;
+		}
+	})
+	
+	console.log(p1.valueOf());
+	console.log(Object.getPrototypeOf(ColorPoint));//寻找ColorPoint的父类,从子类获取父类
+
+	console.log(p1 instanceof Point);
+	console.log(cp1 instanceof Point);
+	console.log(p1 instanceof Object);
+	console.log(p1 instanceof ColorPoint);
+	
+</script>
+</head>
+</html>
