@@ -1,0 +1,357 @@
+<html>
+<head>
+<script>
+	/*
+		周一的晚上,海盗它爹给了海盗一笔钱,随后每天早上起床时,海盗都先拿出一枚金币放进骷髅头存钱罐里,
+		然后将剩余部分平分成七份,并在当天花完其中一份,其余的放在柜子里.
+		可是星期天早上醒来时,海盗发现柜子里的钱都不见了.
+		请问小海盗最少损失了多少金币
+	*/
+   
+   console.log((20/3 | 0) === (20/3));
+   
+	/*
+		找顺子
+	*/
+   
+   function fun2(){
+	   let card=[];//手牌
+	   let mark=[];//标记
+	   for(let i=0;i<17;i++){//只需要下标为2到16的数作为标记
+		   mark.push(0);
+	   }
+	   
+	   
+	   for(let i=0;i<17;i++){
+		   //发牌发2~A 大小王
+		   let num=parseInt(Math.random()*15+2);
+		   // 15作为小王
+		   if(num==15){
+			   if(mark[num]<1){
+				   card.push(num);
+				   mark[num]++;
+			   }else{
+				   i--;
+			   }
+		   }
+		   // 16作为大王
+		   if(num==16){
+			   if(mark[num]<1){
+				   card.push(num);
+				   mark[num]++;
+			   }else{
+				   i--;
+			   }
+		   }
+		   
+		   //14表示A    2-13表示2-K
+		   if(num>=2&&num<=14){
+			   if(mark[num]<4){
+				   card.push(num);
+				   mark[num]++;
+			   }else{
+				   i--;
+			   }
+		   }
+	   }
+	   
+	   
+	   //从小到大的区别
+	   card.sort(function(a,b){
+		   return a-b;
+	   })
+	   console.log(card);
+	   
+	   //去重
+	    let obj={};
+		for(let i=0;i<card.length;i++){
+			if(obj.hasOwnProperty(card[i])){
+				card.splice(i,1);
+				i--;
+			}
+			else{
+				obj[card[i]]=1;
+			}
+		}
+	   
+	   console.log(card);
+	   let begin=0;
+	   let end=begin+4;
+	   // let res=[];
+	   while(begin<(card.length-4)&&card[end]<15){
+		   
+		   //开始大于2,并且开始+4等于开始往后的第四个
+			if((card[begin]+4)===card[end]&&card[begin]>2){
+				//如果结尾+1等于结尾的值+1,那么继续循环
+				while(end<card.length-1&&((card[end]+1)===card[end+1])&&card[end+1]<15){
+					end++;
+				}
+				
+				let s=[];
+				for(let i=begin;i<=end;i++){
+					s.push(card[i]);
+				}
+				// console.log(begin,end);
+				// console.log(card[begin],card[end],s);
+				console.log("顺子:"+s);
+			}
+			begin++;
+			end=begin+4;
+	   }
+	   
+	   
+   }
+   
+   //找顺子
+   function lookshunzi(card){
+	   //从小到大的区别
+	   card.sort(function(a,b){
+	   		   return a-b;
+	   })
+	   // console.log(card);
+	   
+	   //去重
+	    let obj={};
+	   		for(let i=0;i<card.length;i++){
+	   			if(obj.hasOwnProperty(card[i])){
+	   				card.splice(i,1);
+	   				i--;
+	   			}
+	   			else{
+	   				obj[card[i]]=1;
+	   			}
+	   		}
+	   
+	   showBrand(card);
+	   let begin=0;
+	   let end=begin+4;
+	   // let res=[];
+	   while(begin<(card.length-4)&&card[end]<15){
+	   		   
+	   		   //开始大于2,并且开始+4等于开始往后的第四个
+	   			if((card[begin]+4)===card[end]&&card[begin]>2){
+	   				//如果结尾+1等于结尾的值+1,那么继续循环
+	   				while(end<card.length-1&&((card[end]+1)===card[end+1])&&card[end+1]<15){
+	   					end++;
+	   				}
+	   				
+	   				let s=[];
+	   				for(let i=begin;i<=end;i++){
+	   					s.push(card[i]);
+	   				}
+	   				// console.log(begin,end);
+	   				// console.log(card[begin],card[end],s);
+	   				//console.log("顺子:"+s);
+					return s;
+	   			}
+	   			begin++;
+	   			end=begin+4;
+	   }
+	   return [];
+   }
+   
+   //发牌,返回发给玩家的牌,可以发cardNum张
+   function fapai(mark,cardNum){
+	   let card=[];//手牌
+	   
+	   for(let i=0;i<cardNum;i++){
+	   		   //发牌发2~A 大小王
+	   		   let num=parseInt(Math.random()*15+2);
+	   		   // 15作为小王
+	   		   if(num==15){
+	   			   if(mark[num]<1){
+	   				   card.push(num);
+	   				   mark[num]++;
+	   			   }else{
+	   				   i--;
+	   			   }
+	   		   }
+	   		   // 16作为大王
+	   		   if(num==16){
+	   			   if(mark[num]<1){
+	   				   card.push(num);
+	   				   mark[num]++;
+	   			   }else{
+	   				   i--;
+	   			   }
+	   		   }
+	   		   
+	   		   //14表示A    2-13表示2-K
+	   		   if(num>=2&&num<=14){
+	   			   if(mark[num]<4){
+	   				   card.push(num);
+	   				   mark[num]++;
+	   			   }else{
+	   				   i--;
+	   			   }
+	   		   }
+	   }
+	   return card;
+   }
+   
+   //开始
+   function gameStart(){
+	   let mark=[];//标记
+	   for(let i=0;i<17;i++){//只需要下标为2到16的数作为标记
+	   		   mark.push(0);
+	   }
+	   //手牌
+	   let card1=fapai(mark,17);
+	   let card2=fapai(mark,17);
+	   let card3=fapai(mark,17);
+	   
+	   //地主底牌
+	   let landlord=fapai(mark,3);
+	   
+	   card1.sort(function(a,b){
+		   return a-b;
+		})
+		
+		card2.sort(function(a,b){
+		   return a-b;
+		})
+				
+		card3.sort(function(a,b){
+		   return a-b;
+		})
+		landlord.sort(function(a,b){
+			return a-b;
+		})
+
+	   console.log("玩家1:");
+	   showBrand(card1);
+	   showBrand(lookshunzi(card1));
+	   
+	   console.log("\n玩家2:");
+	   showBrand(card2);
+	   showBrand(lookshunzi(card2));
+	   
+	   console.log("\n玩家3:");
+	   showBrand(card3);
+	   showBrand(lookshunzi(card3));
+	   
+	   console.log("\n地主底牌:");
+	   showBrand(landlord);
+   }
+   
+   //打印手牌
+   function showBrand(card){
+	   let str="";
+	   
+	   for(let i=0;i<card.length;i++){
+		   if(card[i]==11){
+			   str=str+"J\t";
+		   }
+		   if(card[i]==12){
+			   str=str+"Q\t";
+		   }
+		   if(card[i]==13){
+			   str=str+"K\t";
+		   }
+		   if(card[i]==14){
+			   str=str+"A\t";
+		   }
+		   if(card[i]==15){
+			   str=str+"小王\t";
+		   }
+		   if(card[i]==16){
+			   str=str+"大王\t";
+		   }
+		   if(card[i]>1&&card[i]<11){
+			   str=str+card[i]+"\t";
+		   }
+		   
+	   }
+	   console.log(str);
+   }
+   gameStart();
+   // fun2();
+   
+   function fun02(){
+	   	let poke = [];
+		let show = ['3','4','5','6','7','8','9','10','J','Q','K','A','2','大王','小王']
+		for(let i = 0; i < 52; i++){
+			poke[i] = 3 + (i % 13); //3 - 15
+		}
+		
+		poke[52] = 16;
+		poke[53] = 17;
+		console.log(poke);
+		
+		var playerCard = [];//玩家手牌
+		for(let i = 0; i < 17; i++){
+			playerCard.push(poke.splice(parseInt(Math.random() * poke.length),1)[0])
+		}
+		
+		playerCard.sort(function(a,b){return a - b});
+		console.log(playerCard);
+		//去重
+		let obj = {};
+		for(let i = 0; i < playerCard.length; i++){
+			if(obj.hasOwnProperty(playerCard[i])){
+				playerCard.splice(i,1);
+				i--;
+			}else{
+				obj[playerCard[i]] = 0;
+			}
+		}
+		console.log(playerCard);
+		
+		let i = 0;
+		let sum = 1;
+		while(playerCard[i + 1] < 15){
+			if(playerCard[i + 1] - playerCard[i] === 1){
+				sum++;
+			}else if(playerCard[i + 1] - playerCard[i] > 1){
+				if(sum >= 5){
+					break
+				}
+				sum = 1;
+			}
+			
+			i++
+		}
+		 
+		let str = '';
+		for(let i = 0; i < playerCard.length; i++){
+			str += show[playerCard[i] - 3]+' ';
+		}
+		console.log('玩家手牌 %s', str);
+		let st = [];
+		if(sum >= 5){
+			console.log('有顺子');
+			for(let j = i - sum + 1; j < i + 1; j++){
+				st += show[playerCard[j] - 3] + ' ';
+			}
+		}else{
+			console.log('没顺子')
+		}
+		console.log(st);
+
+   }
+   
+   // fun2();
+   
+   /*
+	    小芳的妈妈每天给她2.5元钱，她都会存起来，但是，每当这一天是存钱的第5天或者5的倍数的话，
+		她都会花去6元钱，请问，经过多少天，小芳才可以存到100元钱
+   */
+	function fun3(){
+		let sum=0;
+		let i=0;
+		while(sum<100){
+			i++;
+			sum+=2.5;
+			if(i % 5 == 0){
+				sum-=6;
+			}
+		}
+		console.log(i);
+	}
+  
+	fun3();
+  
+  
+</script>
+</head>
+</html>
